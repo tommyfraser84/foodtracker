@@ -17,7 +17,11 @@ class Meal: NSObject, NSCoding {
     var name: String
     var photo: UIImage?
     var rating: Int
-    var ingredients: [Ingredient]?
+    var ingredients: [Ingredient]? {
+        didSet {
+            print("Ingredients has \(ingredients?.count) Ingredients")
+        }
+    }
     
     //MARK: Archiving Paths
     

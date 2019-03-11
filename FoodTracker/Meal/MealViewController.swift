@@ -22,11 +22,15 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
          or constructed as part of adding a new meal.
      */
     var ingredients: [Ingredient]?
-    var meal: Meal?
+    var meal: Meal? {
+        didSet {
+            print("\(meal?.name) has \(meal?.ingredients?.count) ingredients (mealviewcontroller)")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print("There are \(meal?.ingredients?.count) ingredients")
         // Handle the text field’s user input through delegate callbacks.
         nameTextField.delegate = self
         
@@ -114,6 +118,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
                 guard let ingredientDetailViewController = segue.destination as? IngredientTableViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
                 }
+                
                 ingredientDetailViewController.meal = meal
             
         default:

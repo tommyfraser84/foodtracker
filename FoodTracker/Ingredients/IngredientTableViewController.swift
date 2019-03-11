@@ -69,7 +69,7 @@ class IngredientTableViewController: UITableViewController {
             fatalError("Cannot get ing")
         }
         
-        print(ingredient)
+        //print(ingredient)
         cell.nameLabel.text = ingredient.name
 
         return cell
