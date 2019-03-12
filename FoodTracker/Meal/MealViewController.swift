@@ -10,6 +10,10 @@ import UIKit
 import os.log
 
 class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func didFinish(with ingredients: [Ingredient]) {
+        meal?.ingredients? = ingredients
+    }
+    
     
     //MARK: Properties
     @IBOutlet weak var nameTextField: UITextField!
@@ -21,7 +25,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
          This value is either passed by `MealTableViewController` in `prepare(for:sender:)`
          or constructed as part of adding a new meal.
      */
-    var ingredients: [Ingredient]?
+    //var ingredients: [Ingredient]?
     var meal: Meal? {
         didSet {
             print("\(meal?.name) has \(meal?.ingredients?.count) ingredients (mealviewcontroller)")
@@ -108,7 +112,7 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         let name = nameTextField.text ?? ""
         let photo = photoImageView.image
         let rating = ratingControl.rating
-        let ingredients = self.ingredients
+       let ingredients = meal?.ingredients ?? [Ingredient]()
         // Set the meal to be passed to MealTableViewController after the unwind segue.
         meal = Meal(name: name, photo: photo, rating: rating, ingredients: ingredients)
         
@@ -119,7 +123,8 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
                 fatalError("Unexpected destination: \(segue.destination)")
                 }
                 
-                ingredientDetailViewController.meal = meal
+                ingredientDetailViewController.ingredients = ingredients
+                ingredientDetailViewController.delegate = self
             
         default:
             // Configure the destination view controller only when the save button is pressed.
@@ -161,9 +166,12 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         saveButton.isEnabled = !text.isEmpty
     }
     
-    public func updateMealWithIngredients(ingredients:[Ingredient]){
-        meal!.ingredients = ingredients
-    }
+
     
 }
 
+extension MealViewController: IngredientsDelegate {
+    public func updateMealWithIngredients(ingredients:[Ingredient]){
+        meal!.ingredients = ingredients
+    }
+}

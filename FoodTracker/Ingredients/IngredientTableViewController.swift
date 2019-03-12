@@ -9,28 +9,40 @@
 import UIKit
 import os.log
 
+protocol IngredientsDelegate: class {
+    func didFinish(with ingredients: [Ingredient])
+}
+
 class IngredientTableViewController: UITableViewController {
 
     //MARK: Properties
-    
-    var meal: Meal? {
+    var ingredients = [Ingredient]()
+  /*  var meal: Meal? {
         didSet {
             print("\(meal?.name) has \(meal?.ingredients?.count) ingredients")
         }
-    }
+    }*/
     
     @IBOutlet weak var backButton: UINavigationItem!
+    
+    weak var delegate: IngredientsDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
  
-        
+        //self.tableView.delegate
         //backButton.delegate =
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+      
+        delegate?.didFinish(with:ingredients)
     }
 
     // MARK: - Table view data source
@@ -54,7 +66,7 @@ class IngredientTableViewController: UITableViewController {
 //        return 0
 
         
-        return meal?.ingredients?.count ?? 0
+        return ingredients.count
     }
    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,10 +77,8 @@ class IngredientTableViewController: UITableViewController {
 
         // Configure the cell...
         
-        guard let ingredient = meal?.ingredients?[indexPath.row] else {
-            fatalError("Cannot get ing")
-        }
-        
+        let ingredient = ingredients[indexPath.row]
+
         //print(ingredient)
         cell.nameLabel.text = ingredient.name
 
@@ -102,12 +112,12 @@ class IngredientTableViewController: UITableViewController {
             guard let indexPath = tableView.indexPath(for: selectedIngredientCell) else {
                 fatalError("The selected cell is not being displayed by the table")
             }
-            
-            guard let selectedIngredient = meal?.ingredients?[indexPath.row] else {
+            /*
+            guard let selectedIngredient = ingredients[indexPath.row] else {
                 fatalError("Cannot get ing")
             }
             ingredientDetailViewController.ingredient = selectedIngredient
-            
+            */
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }
@@ -123,44 +133,19 @@ class IngredientTableViewController: UITableViewController {
     @IBAction func unwindToIngredientList(sender: UIStoryboardSegue) {
         //print("unwind")
         if let sourceViewController = sender.source as? IngredientViewController, let ingredient = sourceViewController.ingredient {
+            ingredients.append(ingredient)
+            tableView.reloadData()
+            /*
             if let selectedIndexPath = tableView.indexPathForSelectedRow {
-                // Update an existing meal
-                tableView.reloadRows(at: [selectedIndexPath], with: .none)
-                //meal?.ingredients += [ingredient]
-                
-                meal?.ingredients = [ingredient]
-                
-                
-                if let currentIngredients = meal?.ingredients {
-                    let newIngredients = currentIngredients + [ingredient]
-                    meal?.ingredients = newIngredients
-                }
-                else {
-                    meal?.ingredients = [ingredient]
-                }
+         
+
             }
             else {
-                // Add a new meal.
-                var indexCount = 0
-//                if ingredients != nil {
-//                    indexCount = ingredients.count
-//                    print("indexCount is \(indexCount)")
-//                } else {
-//                    print("indexCount is \(indexCount)")
-//                    ingredients? = [ingredient]
-//                }
-                
-                if meal?.ingredients == nil {
-                   meal?.ingredients = []
-                }
-                
-                meal?.ingredients?.append(ingredient)
-                tableView.reloadData()
-                
-                
-//                tableView.insertRows(at: [newIndexPath], with: .automatic)
+
+                fatalError("unwind not as expected")
+     
     
-            }
+            }*/
         }
     }
     

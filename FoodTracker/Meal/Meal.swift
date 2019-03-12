@@ -19,7 +19,7 @@ class Meal: NSObject, NSCoding {
     var rating: Int
     var ingredients: [Ingredient]? {
         didSet {
-            print("Ingredients has \(ingredients?.count) Ingredients")
+            print("Ingredients has \(ingredients?.count ?? 0) Ingredients")
         }
     }
     
@@ -61,6 +61,7 @@ class Meal: NSObject, NSCoding {
         self.photo = photo
         self.rating = rating
         self.ingredients = ingredients
+        
     }
     
     //MARK: NSCoding
@@ -85,7 +86,7 @@ class Meal: NSObject, NSCoding {
         
         let rating = aDecoder.decodeInteger(forKey: PropertyKey.rating)
         
-        let ingredients = aDecoder.decodeObject(forKey: PropertyKey.ingredients) as? Array<Ingredient>
+        let ingredients = aDecoder.decodeObject(forKey: PropertyKey.ingredients) as! [Ingredient]?
         
         // Must call designated initializer.
         self.init(name: name, photo: photo, rating: rating, ingredients: ingredients)

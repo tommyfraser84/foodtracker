@@ -96,7 +96,6 @@
 				C41723AE223156BD00687044 /* Ingredients */,
 				C41723AC2231567200687044 /* Meal */,
 				C41723AB223154D500687044 /* Supporting Files */,
-				936B4B851DB54E8F0090E3EE /* Main.storyboard */,
 			);
 			path = FoodTracker;
 			sourceTree = "<group>";
@@ -113,6 +112,7 @@
 		C41723AB223154D500687044 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				936B4B851DB54E8F0090E3EE /* Main.storyboard */,
 				936B4B811DB54E8F0090E3EE /* AppDelegate.swift */,
 				936B4B881DB54E8F0090E3EE /* Assets.xcassets */,
 				936B4B8A1DB54E8F0090E3EE /* LaunchScreen.storyboard */,
