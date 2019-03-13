@@ -149,9 +149,17 @@ class MealViewController: UIViewController, UITextFieldDelegate, UIImagePickerCo
         
         // UIImagePickerController is a view controller that lets a user pick media from their photo library.
         let imagePickerController = UIImagePickerController()
+  
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            imagePickerController.sourceType = .camera
+        } else {
+            imagePickerController.sourceType = .photoLibrary
+        }
+        
+        
         
         // Only allow photos to be picked, not taken.
-        imagePickerController.sourceType = .photoLibrary
+       // imagePickerController.sourceType = .photoLibrary
         
         // Make sure ViewController is notified when the user picks an image.
         imagePickerController.delegate = self

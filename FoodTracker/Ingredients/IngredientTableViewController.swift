@@ -85,6 +85,13 @@ class IngredientTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.ingredients.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
     
     // MARK: - Navigation
 
@@ -115,9 +122,9 @@ class IngredientTableViewController: UITableViewController {
             /*
             guard let selectedIngredient = ingredients[indexPath.row] else {
                 fatalError("Cannot get ing")
-            }
-            ingredientDetailViewController.ingredient = selectedIngredient
-            */
+            }     */
+            ingredientDetailViewController.ingredient = ingredients[indexPath.row]
+ 
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
         }
